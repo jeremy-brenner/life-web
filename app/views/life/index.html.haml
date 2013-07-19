@@ -1,5 +1,17 @@
-#lifeboard.span10.offset1
-  - 25.times do |x|
-    .cellrow
-      - 60.times do |y|
-        %i.icon-circle-blank{ data: { x: x, y: y, state: 0 } }
+.row
+  .span3.offset1
+    Life
+.row
+  #lifeboard.span10.offset1
+    - 25.times do |x|
+      .cellrow
+        - 53.times do |y|
+          %i.icon-circle-blank{ data: { x: x, y: y } }
+.row
+  .span1= ' '
+.row
+  .span1.offset2
+    %i#playbutton.icon-play.icon-3x
+
+= form_for :life, remote: true, url: 'life.json', :html => { id: 'state_form' } do |f|
+  = f.hidden_field :state
