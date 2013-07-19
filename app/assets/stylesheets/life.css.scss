@@ -1,0 +1,16 @@
+// Place all the styles related to the Life controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+* { margin:0; padding:0; }
+
+#lifeboard {
+  border: 2px solid black;
+  //font-size: 0;
+}
+
+#lifeboard i {
+//  display: inline-block;
+//  width: 10px;
+//  height: 10px;
+}
