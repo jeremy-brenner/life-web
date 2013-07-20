@@ -1,17 +1,19 @@
 .row
-  .span3.offset1
-    Life
+  .span1.offset1
+    %b Life
+  .span1
+    %i#playbutton.icon-play.icon-2x
+  .span1.hidden
+    %i#pausebutton.icon-pause.icon-2x
+  .span1
+    %i#stepbutton.icon-step-forward.icon-2x
+  
 .row
   #lifeboard.span10.offset1
     - 25.times do |x|
       .cellrow
         - 53.times do |y|
           %i.icon-circle-blank{ data: { x: x, y: y } }
-.row
-  .span1= ' '
-.row
-  .span1.offset2
-    %i#playbutton.icon-play.icon-3x
 
 = form_for :life, remote: true, url: 'life.json', :html => { id: 'state_form' } do |f|
   = f.hidden_field :state
