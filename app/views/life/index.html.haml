@@ -16,10 +16,19 @@
 %br  
 .row
   .span7.offset1
-    .input-prepend
-      %span.add-on
+    .dropup
+      %a.btn.dropdown-toggle{ href: "#", data: { toggle: "dropdown" }  }
         %i.icon-chevron-up
+      %ul.dropdown-menu
+        %li
+          Presets   
+        %li.divider  
+        %li
+          %a{ href: "#" }
+            Stiff
       %input#state.span5{ type: "text" }
 
 = form_for :life, remote: true, url: 'life.json', :html => { id: 'state_form' } do |f|
   = f.hidden_field :state
+  = f.hidden_field :timestamp
+

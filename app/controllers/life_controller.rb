@@ -5,9 +5,9 @@ class LifeController < ApplicationController
   end
   # POST /life
   # POST /life.json
-  def create
-    @life = ConwaysLife.new(params["life"]["state"])
-    @life.tick
-    Rails.logger.info( @life.state )
+  def create # create life!
+    @life = ConwaysLife.new(params["life"]["state"]).tick
+    @state_list = 10.times.map { @life.tick.state  }
+    @timestamp = params["life"]["timestamp"]
   end
 end

@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/jeremy-brenner/conways-life.git
-  revision: e7e6ce75efc07008872b5f67540bfcaabcd9d724
+  revision: f730dac39d2e1f267713bb07f3570163097f4c3e
   specs:
-    conways-life (0.0.2)
+    conways-life (0.0.5)
 
 GEM
   remote: https://rubygems.org/
