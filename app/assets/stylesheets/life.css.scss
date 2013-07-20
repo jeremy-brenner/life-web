@@ -6,10 +6,15 @@
 
 #lifeboard {
   border: 2px solid black;
+  padding: 7px 0px 7px 7px;
   font-size: 4px;
   line-height: 0px;
 }
 
 #lifeboard i {
-  font-size: 20px;
+  font-size: 18px;
+}
+
+i.playing {
+  color: green;
 }

@@ -9,6 +9,7 @@ class LifeBoard
     @bindCells()
     @bindButtons()
     @bindForm()
+    @bindState()
 
   aliveClass: 'icon-circle'
 
@@ -22,28 +23,37 @@ class LifeBoard
     @board.find('i').on 'click', @clickCell
 
   bindButtons: ->
-    $('#playbutton').on 'click', @clickPlay
-    $('#pausebutton').on 'click', @clickPause
-    $('#stepbutton').on 'click', @tick
+    $('.icon-play').on 'click', @clickPlay
+    $('.icon-pause').on 'click', @clickPause
+    $('.icon-step-forward').on 'click', @tick
+    $('.icon-refresh').on 'click', @clickRefresh
+
+  bindState: ->
+    $('#state').on 'input', @stateChange
 
   clickCell: (e) =>
     t = $(e.target)
     new_status = not t.data 'status' 
     t.data('status', new_status )
     t.removeClass( @cellClass(!new_status) ).addClass( @cellClass(new_status) )
+    $('#state').val @stateString()
   
   clickPlay: (e) =>
-    @playing = true
-    @updateButtons()
-    @tick()
+    if not @playing 
+      @playing = true
+      @updateButtons()
+      @tick()
 
   clickPause: =>
     @playing = false
     @updateButtons()  
   
+  clickRefresh: =>
+    @clickPause()
+    @resetBoard()
+
   updateButtons: ->
-    $('#playbutton').parent().toggleClass('hidden', @playing)
-    $('#pausebutton').parent().toggleClass('hidden', !@playing)  
+    $('.icon-play').toggleClass('playing', @playing ) 
 
   tick: =>
     $('#state_form #life_state').val( @stateString() )
@@ -70,11 +80,18 @@ class LifeBoard
     @board.find('i').removeClass( @aliveClass ).addClass( @deadClass ).data('status', false)
 
   loadState: (state) ->
-    coords = state.split ':'
-    @add coord for coord in coords
-  
-  ajaxSuccess: (e, object) =>
     @resetBoard()
+    if state.length > 0
+      coords = state.split ':'
+      @add coord for coord in coords
+      $('#state').val state
+    else 
+      @clickPause()
+  
+  stateChange: (e) =>
+    @loadState $(e.target).val()
+
+  ajaxSuccess: (e, object) =>
     @loadState object.state
     setTimeout =>
       @tick() if @playing
