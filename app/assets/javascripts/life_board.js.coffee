@@ -16,23 +16,22 @@ class LifeBoard
     @board.find('i').on 'click', @clickCell
 
   clickCell: (e) =>
-    t = $(e.target)
-    new_status = not t.data 'status' 
-    t.data('status', new_status )
-    t.removeClass( @cellClass(!new_status) ).addClass( @cellClass(new_status) )
-    @add t.data('x'), t.data('y')
-    Life.controls.setState @state()
-    Life.api.reset()
-  
-  cellClass: (status) ->
-    if status then @aliveClass else @deadClass
+    $t = $(e.target)
+    new_status = not $t.data 'status' 
+    if new_status
+      console.log 'add'
+      @add $t.data('x'), $t.data('y')
+    else
+      console.log 'remove'
+      @remove $t.data('x'), $t.data('y')
+    Life.api.reset()  
 
   state: (state=false) ->
     if state
       @loadState(state)
   
     ( "#{cell.x},#{cell.y}" for cell in @board_state ).join(':')
-    #state_array.join(':')
+
 
   empty: ->
     !@state()
@@ -45,15 +44,17 @@ class LifeBoard
       x: x 
       y: y    
     $("i[data-x=#{x}][data-y=#{y}]").removeClass( @deadClass ).addClass( @aliveClass ).data('status', true)
+    Life.controls.setState @state()
 
   remove: ( x, y ) ->
     @board_state = @board_state.filter ( cell ) -> cell.x != x or cell.y != y 
     $("i[data-x=#{x}][data-y=#{y}]").removeClass( @aliveClass ).addClass( @deadClass ).data('status', false)
+    Life.controls.setState @state()
 
   reset: ->
     if @board_state
       @remove( cell.x, cell.y ) for cell in @board_state
-
+      
   loadState: (state='') ->
     @reset()
     if state.length > 0
