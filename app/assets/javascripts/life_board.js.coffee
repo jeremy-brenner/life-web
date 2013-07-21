@@ -4,7 +4,9 @@
 
 class LifeBoard
   constructor: () ->
+    @board_state = []
     @board = $('#lifeboard')
+    @loadState("")
     @bindCells()
 
   aliveClass: 'icon-circle'
@@ -18,6 +20,7 @@ class LifeBoard
     new_status = not t.data 'status' 
     t.data('status', new_status )
     t.removeClass( @cellClass(!new_status) ).addClass( @cellClass(new_status) )
+    @add t.data('x'), t.data('y')
     Life.controls.setState @state()
     Life.api.reset()
   
@@ -27,12 +30,9 @@ class LifeBoard
   state: (state=false) ->
     if state
       @loadState(state)
-
-    state_array = []
-    @board.find('i').each (i,el) =>
-      if $(el).data('status')
-        state_array.push "#{$(el).data('x')},#{$(el).data('y')}"
-    state_array.join(':')
+  
+    ( "#{cell.x},#{cell.y}" for cell in @board_state ).join(':')
+    #state_array.join(':')
 
   empty: ->
     !@state()
@@ -40,21 +40,28 @@ class LifeBoard
   cellStatus: (i,el) ->
     if $(el).data('status') then $(el).data() else undefined
 
-  add: (coords) ->
-    [ x , y ] = coords.split ','
-    $("i[data-x=#{x}][data-y=#{y}]").addClass( @aliveClass ).data('status', true)
+  add: ( x, y ) ->
+    @board_state.push
+      x: x 
+      y: y    
+    $("i[data-x=#{x}][data-y=#{y}]").removeClass( @deadClass ).addClass( @aliveClass ).data('status', true)
+
+  remove: ( x, y ) ->
+    @board_state = @board_state.filter ( cell ) -> cell.x != x or cell.y != y 
+    $("i[data-x=#{x}][data-y=#{y}]").removeClass( @aliveClass ).addClass( @deadClass ).data('status', false)
 
   reset: ->
-    @board.find('i').removeClass( @aliveClass ).addClass( @deadClass ).data('status', false)
+    if @board_state
+      @remove( cell.x, cell.y ) for cell in @board_state
 
-  loadState: (state) ->
+  loadState: (state='') ->
     @reset()
     if state.length > 0
       coords = state.split ':'
-      @add coord for coord in coords
+      @add coord.split(',')[0], coord.split(',')[1] for coord in coords
       $('#state').val state
     else 
-      Life.controls.clickPause()
+      Life.controls?.clickPause()
   
 window.Life ||= {}
 window.Life.LifeBoard = LifeBoard
