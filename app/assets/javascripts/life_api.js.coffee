@@ -17,7 +17,7 @@ class LifeApi
       dataType: 'json'
     
   update: ->
-    if @state_list.length < 40 and not Life.board.empty()
+    if @current_fetch == false and @state_list.length < 40 and not Life.board.empty()
       if @state_list.length == 0
         @fetch Life.board.state() 
       else
@@ -26,6 +26,7 @@ class LifeApi
   ajaxSuccess: (object) =>
     if object.timestamp == @current_fetch
       @state_list = @state_list.concat object.state_list
+      @current_fetch = false
 
   ajaxError: (e) =>
     console.log 'error', e
