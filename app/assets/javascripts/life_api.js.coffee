@@ -1,6 +1,7 @@
 class LifeApi
   constructor: ->
     @state_list = []
+    @min_queue_size = 100
     @loop()
 
   fetch: (state) =>
@@ -17,7 +18,7 @@ class LifeApi
       dataType: 'json'
     
   update: ->
-    if @current_fetch == false and @state_list.length < 40 and not Life.board.empty()
+    if @current_fetch == false and @state_list.length < @min_queue_size and not Life.board.empty()
       if @state_list.length == 0
         @fetch Life.board.state() 
       else
@@ -29,7 +30,8 @@ class LifeApi
       @current_fetch = false
 
   ajaxError: (e) =>
-    console.log 'error', e
+    console.log 'Life fetch error, retrying.'
+    @current_fetch = false
 
   lastState: ->
     @state_list[@state_list.length - 1]
