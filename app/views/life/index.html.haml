@@ -12,8 +12,7 @@
     - 200.times do |x|
       .cellrow
         - 200.times do |y|
-          -# %i.icon-check-empty{ data: { x: x, y: y } }
-          .cell.dead{ data: { x: x, y: y } }
+          .cell{ data: { x: x, y: y } }
 
 %br  
 .row
@@ -30,3 +29,14 @@
           - @presets.each do |title,preset|
             %a{ href: "#", data: { state: preset } }
               =title
+  
+.row
+  .span10.offset1
+    %br
+    %a{ href: "https://github.com/jeremy-brenner/life-web", target: '_blank' }
+      %i.icon-github
+      This app on github
+    %br
+    %a{ href: "https://github.com/jeremy-brenner/conways-life", target: '_blank' }
+      %i.icon-github
+      Conways Life ruby gem on github

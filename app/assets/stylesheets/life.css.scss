@@ -27,11 +27,10 @@ i.playing {
   border-style: solid;
   border-color: black;
   display: inline-block;
+  background-color: #FFFFFF;
 }
-.cell.alive {
-    background-color: #000000;
-  }
 
-.cell.dead {
-    background-color: #FFFFFF;
-  }
+.cell.alive {
+  background-color: #000000;
+}
+

@@ -47,12 +47,12 @@ class LifeBoard
     @board_state.push
       x: x
       y: y
-    @board_cells[x]?[y]?.removeClass( 'dead' ).addClass( 'alive' ).data('status', true)
+    @board_cells[x]?[y]?.addClass( 'alive' ).data('status', true)
     Life.controls.setState @state()
 
   remove: ( x, y ) ->
     @board_state = @board_state.filter ( cell ) -> parseInt(cell.x,10) != parseInt(x,10) or parseInt(cell.y,10) != parseInt(y,10)
-    @board_cells[x]?[y]?.removeClass( 'alive' ).addClass( 'dead' ).data('status', false)
+    @board_cells[x]?[y]?.removeClass( 'alive' ).data('status', false)
     Life.controls.setState @state()
 
   reset: ->
