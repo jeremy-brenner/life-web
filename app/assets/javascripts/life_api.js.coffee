@@ -17,7 +17,7 @@ class LifeApi
       dataType: 'json'
     
   update: ->
-    if @state_list.length < 20 and not Life.board.empty()
+    if @state_list.length < 40 and not Life.board.empty()
       if @state_list.length == 0
         @fetch Life.board.state() 
       else
