@@ -4,25 +4,30 @@
 
 class LifeBoard
   constructor: () ->
-    @board_state = []
     @board = $('#lifeboard')
+    @board_state = []
+    @board_cells = []
+    @initCells()
     @loadState("")
     @bindCells()
 
-  aliveClass: 'icon-circle'
-  deadClass: 'icon-circle-blank'
-
   bindCells: ->
-    @board.find('i').on 'click', @clickCell
+    @board.find('.cell').on 'click', @clickCell
+
+  initCells: ->
+    @board.find('.cell').each @initCell
+
+  initCell: (i,cell) =>
+    $cell = $(cell)
+    @board_cells[$cell.data('x')] ?= []
+    @board_cells[$cell.data('x')][$cell.data('y')] = $cell
 
   clickCell: (e) =>
     $t = $(e.target)
     new_status = not $t.data 'status' 
     if new_status
-      console.log 'add'
       @add $t.data('x'), $t.data('y')
     else
-      console.log 'remove'
       @remove $t.data('x'), $t.data('y')
     Life.api.reset()  
 
@@ -32,7 +37,6 @@ class LifeBoard
   
     ( "#{cell.x},#{cell.y}" for cell in @board_state ).join(':')
 
-
   empty: ->
     !@state()
 
@@ -41,14 +45,14 @@ class LifeBoard
 
   add: ( x, y ) ->
     @board_state.push
-      x: x 
-      y: y    
-    $("i[data-x=#{x}][data-y=#{y}]").removeClass( @deadClass ).addClass( @aliveClass ).data('status', true)
+      x: x
+      y: y
+    @board_cells[x]?[y]?.removeClass( 'dead' ).addClass( 'alive' ).data('status', true)
     Life.controls.setState @state()
 
   remove: ( x, y ) ->
-    @board_state = @board_state.filter ( cell ) -> cell.x != x or cell.y != y 
-    $("i[data-x=#{x}][data-y=#{y}]").removeClass( @aliveClass ).addClass( @deadClass ).data('status', false)
+    @board_state = @board_state.filter ( cell ) -> parseInt(cell.x,10) != parseInt(x,10) or parseInt(cell.y,10) != parseInt(y,10)
+    @board_cells[x]?[y]?.removeClass( 'alive' ).addClass( 'dead' ).data('status', false)
     Life.controls.setState @state()
 
   reset: ->

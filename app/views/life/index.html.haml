@@ -9,10 +9,12 @@
 
 .row
   #lifeboard.span10.offset1
-    - 40.times do |x|
+    - 50.times do |x|
       .cellrow
         - 100.times do |y|
-          %i.icon-circle-blank{ data: { x: x, y: y } }
+          -# %i.icon-check-empty{ data: { x: x, y: y } }
+          .cell.dead{ data: { x: x, y: y } }
+
 %br  
 .row
   .span10.offset1
@@ -25,14 +27,6 @@
           Presets   
         %li.divider  
         %li
-          %a{ href: "#", data: { state: "7,12:8,12:9,12:11,11:11,13:13,12:14,12:15,12" } }
-            Pulsar
-          %a{ href: "#", data: { state: "5,1:5,2:6,2:6,1:5,11:6,11:7,11:4,12:3,13:3,14:8,12:9,13:9,14:6,15:4,16:5,17:6,17:7,17:8,16:6,18:5,21:5,22:4,21:4,22:3,21:3,22:2,23:6,23:6,25:7,25:2,25:1,25:3,35:4,35:4,36:3,36" } }
-            Gosper glider gun
-          %a{ href: "#", data: { state: "7,12:8,12:9,12:7,16:8,16:9,16" } }
-            Spinners
-
-= form_for :life, remote: true, url: 'life.json', :html => { id: 'state_form' } do |f|
-  = f.hidden_field :state
-  = f.hidden_field :timestamp
-
+          - @presets.each do |title,preset|
+            %a{ href: "#", data: { state: preset } }
+              =title

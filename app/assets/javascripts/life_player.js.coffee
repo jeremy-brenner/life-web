@@ -13,7 +13,7 @@ class LifePlayer
     setTimeout =>
       @tick() if @playing
       @loop()
-    , 500
+    , 300
 
   tick: ->
     Life.api.nextState()

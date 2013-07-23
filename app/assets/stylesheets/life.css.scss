@@ -2,20 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-// * { margin:0; padding:0; }
-
 #lifeboard {
   border: 2px solid black;
   padding: 7px 0px 7px 7px;
-  font-size: 4px;
+  font-size: 0px;
   line-height: 0px;
-  height: 450px;
+  height: 500px;
   overflow: auto;
   white-space: nowrap;
-}
-
-#lifeboard i {
-  font-size: 18px;
 }
 
 i.playing {
@@ -25,3 +19,19 @@ i.playing {
 .input-append .btn.dropdown-toggle {
     float: none;
 }
+
+.cell {
+  width: 12px;
+  height: 12px;
+  border-width: 1px 0px 0px 1px;
+  border-style: solid;
+  border-color: black;
+  display: inline-block;
+}
+.cell.alive {
+    background-color: #000000;
+  }
+
+.cell.dead {
+    background-color: #FFFFFF;
+  }
