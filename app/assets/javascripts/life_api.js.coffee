@@ -1,10 +1,12 @@
 class LifeApiCoffee
   constructor: ->
+    @reset()
 
   reset: ->
+    @life = null
 
   nextState: ->
-    @life = new window.Life.Life( Life.board.state() )
+    @life ?= new window.Life.Life( Life.board.state() )
     Life.board.loadState @life.tick().state()
 
 class LifeApiRails
