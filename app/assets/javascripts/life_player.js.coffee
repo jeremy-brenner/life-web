@@ -1,6 +1,7 @@
 class LifePlayer
   constructor: ->
     @playing = false
+    @delay = 300
     @loop()
 
   play: ->
@@ -13,7 +14,7 @@ class LifePlayer
     setTimeout =>
       @tick() if @playing
       @loop()
-    , 300
+    , @delay
 
   tick: ->
     Life.api.nextState()
