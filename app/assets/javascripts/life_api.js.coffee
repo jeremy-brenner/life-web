@@ -1,4 +1,13 @@
-class LifeApi
+class LifeApiCoffee
+  constructor: ->
+
+  reset: ->
+
+  nextState: ->
+    @life = new window.Life.Life( Life.board.state() )
+    Life.board.loadState @life.tick().state()
+
+class LifeApiRails
   constructor: ->
     @state_list = []
     @min_queue_size = 100
@@ -52,7 +61,7 @@ class LifeApi
 
 
 window.Life ||= {}
-window.Life.LifeApi = LifeApi
+window.Life.LifeApi = LifeApiCoffee
 
 jQuery ->
   window.Life.api = new Life.LifeApi()
